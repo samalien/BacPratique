@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultat de la Répartition | Lycée Pilote du Kef</title>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/css2.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #22c55e;
+            --success-bg: #dcfce7;
+            --success-text: #166534;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* Status Card */
+        .status-card {
+            background: var(--success-bg);
+            color: var(--success-text);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: -4rem; /* Chevauchement sur le header */
+            box-shadow: var(--shadow);
+            border: 1px solid #bbf7d0;
+            animation: slideUp 0.5s ease;
+        }
+
+        .status-card i { font-size: 3rem; margin-bottom: 1rem; color: var(--success); }
+        .status-card h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .stat-item span { display: block; color: var(--text-muted); font-size: 0.9rem; }
+        .stat-item strong { font-size: 1.5rem; color: var(--primary); }
+
+        /* Tables & Lists */
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        h2 { font-size: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; color: #334155; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; padding: 1rem; background: #f8fafc; }
+        td { padding: 1rem; border-top: 1px solid var(--border); }
+
+        /* PDF Links */
+        .pdf-list { list-style: none; }
+        .pdf-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .pdf-item:hover { border-color: var(--primary); background: #eff6ff; }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .btn-outline {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-main);
+            text-decoration: none;
+            background: white;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-outline:hover { background: #f1f5f9; border-color: var(--secondary); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            .nav-buttons { flex-direction: column; }
+            .pdf-item { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <p>Rapport de session</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="status-card">
+            <i class="fa-solid fa-circle-check"></i>
+            <h1>Répartition Terminée !</h1>
+            <p>Les fichiers ont été triés et les bordereaux sont prêts.</p>
+            <div style="margin-top:10px; font-weight: 600; opacity: 0.8;">Examen du : <%= date %></div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span>Total Travaux</span>
+                <strong><%= result.totalTravaux %></strong>
+            </div>
+            <div class="stat-item">
+                <span>Professeurs</span>
+                <strong><%= result.bordereaux.length %></strong>
+            </div>
+            <div class="stat-item">
+                <span>Statut</span>
+                <strong style="color: var(--success)">Prêt</strong>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+            
+            <div class="card">
+                <h2><i class="fa-solid fa-chart-pie"></i> Volume par Professeur</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Professeur</th>
+                            <th>Copies</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% Object.entries(result.repartitionParProf).forEach(([prof, nb]) => { %>
+                            <tr>
+                                <td><strong><%= prof %></strong></td>
+                                <td><span style="background: #f1f5f9; padding: 4px 10px; border-radius: 20px;"><%= nb %> copies</span></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2><i class="fa-solid fa-file-pdf"></i> Bordereaux PDF</h2>
+                <div class="pdf-list">
+                    <% result.bordereaux.forEach(b => { %>
+                        <div class="pdf-item">
+                            <div>
+                                <div style="font-weight: 600;"><%= b.professeur %></div>
+                                <small>Format PDF - Prêt pour impression</small>
+                            </div>
+                            <a href="<%= b.pdfPath %>" class="btn-download" download>
+                                <i class="fa-solid fa-download"></i> Télécharger
+                            </a>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="nav-buttons">
+            <a href="/repartir" class="btn-outline">
+                <i class="fa-solid fa-rotate-right"></i> Nouvelle répartition
+            </a>
+            <a href="/" class="btn-outline">
+                <i class="fa-solid fa-house"></i> Retour à l'accueil
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

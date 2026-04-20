@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lancer la Répartition | Lycée Pilote du Kef</title>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/css2.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        header h1 { font-weight: 700; font-size: 2rem; letter-spacing: -0.025em; }
+        header p { opacity: 0.8; font-weight: 300; margin-top: 0.5rem; }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Alert Message (Error) */
+        .alert-error {
+            padding: 1rem;
+            border-radius: 12px;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Card */
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Form elements */
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background-color: #fcfcfc;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: white;
+        }
+
+        select[multiple] {
+            height: 160px;
+            padding: 0.5rem;
+        }
+
+        select option {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 2px;
+        }
+
+        small {
+            display: block;
+            margin-top: 0.4rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        /* Buttons */
+        .btn-launch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-launch:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--primary); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Configuration de la Répartition</h1>
+            <p>Sélectionnez les paramètres pour générer les bordereaux</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <% if (message) { %>
+            <div class="alert-error">
+                <i class="fa-solid fa-triangle-exclamation" style="margin-right: 10px;"></i> <%= message %>
+            </div>
+        <% } %>
+
+        <div class="card">
+            <form method="POST" action="/repartir">
+                
+                <div class="form-group">
+                    <label for="date"><i class="fa-solid fa-calendar-days"></i> Date de l'examen</label>
+                    <input type="text" id="date" name="date" placeholder="Ex: 20-04-2026" required>
+                    <small>Format recommandé : JJ-MM-AAAA</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="profs"><i class="fa-solid fa-user-check"></i> Professeurs concernés</label>
+                    <select id="profs" name="profsSelection" multiple required>
+                        <option value="Tous" selected>✨ Tous les professeurs</option>
+                        <% professeurs.forEach(prof => { %>
+                            <option value="<%= prof %>"><%= prof %></option>
+                        <% }); %>
+                    </select>
+                    <small><i class="fa-solid fa-circle-info"></i> Maintenez <strong>Ctrl</strong> (ou Cmd) pour une sélection multiple</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="lycees"><i class="fa-solid fa-school"></i> Lycées à inclure</label>
+                    <select id="lycees" name="lyceesSelection" multiple required>
+                        <option value="Tous" selected>✨ Tous les lycées</option>
+                        <% lycees.forEach(lycee => { %>
+                            <option value="<%= lycee %>"><%= lycee %></option>
+                        <% }); %>
+                    </select>
+                    <small><i class="fa-solid fa-circle-info"></i> Seuls les dossiers de ces lycées seront répartis</small>
+                </div>
+
+                <button type="submit" class="btn-launch">
+                    <i class="fa-solid fa-gears"></i> Générer la Répartition et les Bordereaux
+                </button>
+            </form>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="/" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Retour au tableau de bord
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

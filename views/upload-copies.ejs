@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charger ZIP | Lycée Pilote du Kef</title>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/css2.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success: #22c55e;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        header h1 { font-weight: 700; font-size: 1.8rem; }
+
+        .container { max-width: 700px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .alert-success {
+            padding: 1rem;
+            border-radius: 12px;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .info-box p { font-size: 0.9rem; color: #1e40af; }
+        .info-box code { 
+            display: block; 
+            background: white; 
+            padding: 8px; 
+            border-radius: 6px; 
+            margin-top: 8px;
+            border: 1px dashed #bfdbfe;
+            color: #2563eb;
+        }
+
+        /* Input File Styling */
+        .file-upload-wrapper {
+            border: 2px dashed var(--border);
+            padding: 2rem;
+            border-radius: 15px;
+            background: #fcfcfc;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+            cursor: pointer;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: var(--primary);
+            background: #f0f7ff;
+        }
+
+        .file-upload-wrapper i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .btn-upload {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-upload:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .footer-links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .link-item {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .link-item:hover { color: var(--primary); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1><i class="fa-solid fa-file-zipper"></i> Importation ZIP</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <% if (message) { %>
+            <div class="alert-success">
+                <i class="fa-solid fa-check-circle"></i> <%= message %>
+            </div>
+        <% } %>
+
+        <div class="card">
+            <div class="info-box">
+                <p><strong><i class="fa-solid fa-lightbulb"></i> Structure du ZIP :</strong></p>
+                <p>Le fichier doit contenir le dossier de la date à la racine :</p>
+                <code>📂 25-04-2026 / 📂 Lycée / 📂 Créneau / 📂 Labo / 📂 Eleve / 📄 fichiers</code>
+            </div>
+
+        <div class="card">
+            <form action="/upload-copies" method="POST" enctype="multipart/form-data">
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label for="lyceeSelection"><strong>Sélectionnez le Lycée d'origine :</strong></label>
+                    <select name="lyceeSource" id="lyceeSelection" required style="width: 100%; padding: 10px; margin-top: 10px;">
+                        <option value="">-- Choisir un établissement --</option>
+                        <% lycees.forEach(lycee => { %>
+                            <option value="<%= lycee %>"><%= lycee %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="file-upload-wrapper">
+                    <input type="file" name="zipFile" accept=".zip" required>
+                </div>
+
+                <button type="submit" class="btn-upload">📤 Charger et Assigner au Lycée</button>
+            </form>
+        </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="/" class="link-item">
+                <i class="fa-solid fa-house"></i> Accueil
+            </a>
+            <span style="color: var(--border)">|</span>
+            <a href="/repartir" class="link-item" style="color: var(--primary); font-weight: 600;">
+                <i class="fa-solid fa-rocket"></i> Répartition
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            const fileNameDisplay = document.getElementById('file-name');
+            if (input.files.length > 0) {
+                fileNameDisplay.innerHTML = `<i class="fa-solid fa-file-circle-check"></i> ${input.files[0].name}`;
+            }
+        }
+    </script>
+</body>
+</html>

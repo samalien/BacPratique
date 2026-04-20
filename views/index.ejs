@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Copies | Lycées  du Kef</title>
+    <!--<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">-->
+    <link rel="stylesheet" href="/css/all.min.css">
+    <link rel="stylesheet" href="/css/css2.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        header h1 { font-weight: 700; font-size: 2.2rem; letter-spacing: -0.025em; }
+        header p { opacity: 0.8; font-weight: 300; margin-top: 0.5rem; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Alert Message */
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .card h2 { font-size: 1.25rem; font-weight: 600; color: #334155; }
+
+        /* Form styling */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"], input[type="file"] {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { outline: none; border-color: var(--primary); ring: 2px solid #bfdbfe; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+        .btn-edit { background: #fef3c7; color: #92400e; }
+        .btn-edit:hover { background: #fde68a; }
+
+        .btn-delete { background: #fee2e2; color: #991b1b; }
+        .btn-delete:hover { background: #fecaca; }
+
+        .btn-info { background: #0ea5e9; color: white; }
+        .btn-launch { 
+            background: var(--success); color: white; width: 100%; 
+            justify-content: center; padding: 1.2rem; font-size: 1.2rem; 
+            border-radius: 12px; margin-top: 1rem;
+        }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; padding: 1rem; }
+        td { padding: 1rem; border-top: 1px solid var(--border); vertical-align: middle; }
+        tr:hover { background-color: #f8fafc; }
+
+        .actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+        /* Footer */
+        footer { text-align: center; margin-top: 3rem; color: var(--text-muted); font-size: 0.85rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            .input-group { flex-direction: column; }
+            .card-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1> Gestion des Copies</h1>
+            <p>Système de répartition automatisée - Lycées du Kef</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <% if (message) { %>
+            <div class="alert">
+                <i class="fa-solid fa-circle-check" style="margin-right: 10px;"></i> <%= message %>
+            </div>
+        <% } %>
+
+        <div class="card" style="text-align:center; border-left: 5px solid #0ea5e9;">
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">Commencez par importer les fichiers sources avant la répartition.</p>
+            <a href="/upload-copies" class="btn btn-info" style="padding: 1rem 2rem;">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Charger les Copies des Élèves
+            </a>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1.5rem;">
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-user-tie"></i> Professeurs</h2>
+                </div>
+                <form action="/add-prof" method="POST" class="input-group">
+                    <input type="text" name="nom" placeholder="Nom du professeur..." required>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter</button>
+                </form>
+                <table>
+                    <% professeurs.forEach(prof => { %>
+                        <tr>
+                            <td><strong><%= prof %></strong></td>
+                            <td class="actions">
+                                <button onclick="editItem('prof', '<%= prof %>')" class="btn btn-edit"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteItem('prof', '<%= prof %>')" class="btn btn-delete"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-school"></i> Lycées</h2>
+                </div>
+                <form action="/add-lycee" method="POST" class="input-group">
+                    <input type="text" name="nom" placeholder="Nom du lycée..." required>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter</button>
+                </form>
+                <table>
+                    <% lycees.forEach(lycee => { %>
+                        <tr>
+                            <td><strong><%= lycee %></strong></td>
+                            <td class="actions">
+                                <button onclick="editItem('lycee', '<%= lycee %>')" class="btn btn-edit"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteItem('lycee', '<%= lycee %>')" class="btn btn-delete"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-file-excel"></i> Importation de masse</h2>
+            </div>
+            <form action="/upload-csv" method="POST" enctype="multipart/form-data">
+                <div class="input-group">
+                    <input type="file" name="csvFile" accept=".csv, .xlsx, .xls" required>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-upload"></i> Charger le fichier</button>
+                </div>
+                <small style="color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+                    <i class="fa-solid fa-circle-info"></i> Format : Colonnes "type" (prof/lycee) et "nom"
+                </small>
+            </form>
+        </div>
+
+        <a href="/repartir" class="btn btn-launch">
+            <i class="fa-solid fa-rocket"></i> Lancer la Répartition Automatique
+        </a>
+
+        <footer>
+            <p>&copy; 2026 Lycée Pilote du Kef - Gestion Interne des Examens</p>
+        </footer>
+    </div>
+
+    <script>
+        function deleteItem(type, nom) {
+            if (confirm(`Voulez-vous vraiment supprimer "${nom}" ?`)) {
+                window.location.href = `/delete-${type}?nom=${encodeURIComponent(nom)}`;
+            }
+        }
+        function editItem(type, nom) {
+            const n = prompt("Modifier le nom :", nom);
+            if (n && n.trim() !== "" && n !== nom) {
+                window.location.href = `/edit-${type}?old=${encodeURIComponent(nom)}&new=${encodeURIComponent(n.trim())}`;
+            }
+        }
+    </script>
+</body>
+</html>
